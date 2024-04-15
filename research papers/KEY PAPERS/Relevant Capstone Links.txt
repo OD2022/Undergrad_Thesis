@@ -1,0 +1,62 @@
+https://www.youtube.com/watch?v=ytlhMAF6ok0  - Custom Instance Segmentation
+https://www.youtube.com/watch?v=pFiGSrRtaU4  - Custom Instance Segmentation
+https://www.youtube.com/watch?v=m9fH9OWn8YM&t=53s - Train Yolov8 object detection on a custom dataset
+https://www.youtube.com/watch?v=E_5HJHGoHiI&t=95s - Zoe Depth Estimation
+https://www.youtube.com/watch?v=aVKGjzAUHz0 - Image segmentation with Yolov8 custom dataset
+https://www.youtube.com/watch?v=DMRlOWfRBKU&t=45s - YOLOv8 Instance Segmentation on Custom Dataset | Windows & Linux
+https://universe.roboflow.com/tolulope-elijiah-srva1/food-detect-ocimu/dataset/1
+https://medium.com/analytics-vidhya/image-classification-vs-object-detection-vs-image-segmentation-f36db85fe81
+https://arielycliu.medium.com/classifying-food-with-computer-vision-a473249cf2f2
+https://www.youtube.com/watch?v=Z-65nqxUdl4 - YOLO V8 Full Tutorial
+
+
+
+
+If food does not contain allergies
+If food does not contain interactions
+If food calories does not exceed RDI 
+If food nutrient does not exceed RDI
+If meal is eaten, does it meet RDI?
+
+
+
+
+
+
+Step1: Collect Images of African Food Data
+Step 1b: Collect facts about Food
+Step2: Annotate and segment images
+Step 2b: Build CNN ResNet Network
+Step 3: Train the model using YOLOV8 for Instance segmentation
+Step 4: Incorporate Depth Volume Ratio
+Step 6: Go meet Sickle Cell disease nutritionists and Doctors collect Sickle Cell Facts such as drug interaction, allergies, time dependencies.
+Step 9: Build Decision Making Engine using conditional programming, RDI and SCD Facts
+Step 10: Evaluate Efficacy of MORGAN against real world dieticians
+Step 11: Evaluate Accuracy of CNN ResNet
+
+Step 12: Fine Tune LLM/GPT Model with CustomDataSet
+Pass in user input, age and sex as predefined prompt
+Create a  set of predefined prompts
+
+
+
+
+
+
+
+
+
+
+
+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
+
+
+
+
+
+
+
+
+
+
+

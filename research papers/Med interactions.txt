@@ -1,0 +1,123 @@
+{
+  "treatments": [
+    {
+      "name": "Adakveo",
+      "generic_name": "Crizanlizumab",
+      "manufacturer": "Novartis",
+      "approved_for": "Painful vaso-occlusive crisis events caused by sickle cell disease (patients 16 and older)",
+      "mechanism_of_action": "Blocks or inhibits P-selectin, preventing adhesion of sickle red blood cells to blood vessels",
+      "administration": {
+        "initial_dosing": "Two initial doses given two weeks apart in the first month, then once per month at 5 mg/kg by infusion into the bloodstream"
+      },
+      "clinical_trials": [
+        {
+          "trial_name": "SUSTAIN",
+          "trial_id": "NCT01895361",
+          "participants": 198,
+          "results": "High dose reduced frequency of vaso-occlusive pain crises by 45.3%"
+        },
+        {
+          "trial_name": "STAND",
+          "trial_id": "NCT03814746",
+          "participants": "Up to 240 SCD participants ages 12 and up",
+          "duration": "Estimated completion in 2027"
+        }
+      ],
+      "adverse_effects": [
+        "Joint pain",
+        "Diarrhea",
+        "Itching",
+        "Vomiting",
+        "Chest pain"
+      ]
+    },
+    {
+      "name": "Casgevy",
+      "generic_name": "CRISPR/Cas9 Gene Therapy",
+      "manufacturer": "Various",
+      "approved_for": "Sickle cell disease (ages 12 and older)",
+      "mechanism_of_action": "Modifies BCL11A gene to increase fetal hemoglobin production",
+      "administration": {
+        "process": "Hematopoietic stem cells are collected, edited in lab, and infused back into patient via stem cell transplant"
+      },
+      "clinical_trials": [
+        {
+          "trial_name": "SOLACE-adults",
+          "trial_id": "NCT03264989",
+          "participants": "Sickle cell disease patients (16-70 years old) with vaso-occlusive pain crises"
+        },
+        {
+          "trial_name": "STAND",
+          "trial_id": "NCT03814746",
+          "participants": "Up to 240 SCD participants ages 12 and up",
+          "duration": "Estimated completion in 2027"
+        }
+      ],
+      "adverse_effects": [
+        "Fever",
+        "Antihistamine medications",
+        "Skin reactions"
+      ]
+    },
+    {
+      "name": "Endari",
+      "generic_name": "L-glutamine",
+      "manufacturer": "Emmaus Life Sciences",
+      "approved_for": "Sickle cell anemia and sickle beta-thalassemia (ages 5 and older)",
+      "mechanism_of_action": "Increases free glutamine levels to generate antioxidants, reducing oxidative stress in sickle cells",
+      "administration": {
+        "dosing": "Oral administration"
+      },
+      "clinical_trials": [
+        {
+          "trial_name": "Phase 3",
+          "trial_id": "NCT01179217",
+          "participants": 230,
+          "results": "25% reduction in pain crises frequency, 33% decrease in hospitalization rates"
+        }
+      ],
+      "adverse_effects": [
+        "Constipation",
+        "Nausea",
+        "Headache",
+        "Abdominal pain"
+      ]
+    },
+    {
+      "name": "Hydroxyurea",
+      "brand_names": ["Droxia", "Siklos"],
+      "approved_for": ["Sickle Cell Disease", "Cancer"],
+      "mechanism_of_action": [
+        "Increases fetal hemoglobin levels",
+        "Reduces red blood cell sickling and destruction",
+        "Reduces neutrophil levels"
+      ],
+      "administration": {
+        "form": "Tablet",
+        "dosage": {
+          "initial": {
+            "adults": "15 mg/kg",
+            "children": "20 mg/kg"
+          },
+          "maximum": "As tolerated, up to maximum dose"
+        }
+      },
+      "clinical_trials": [
+        {
+          "trial_name": "ESCORT-HU",
+          "trial_id": "NCT02516579",
+          "participants": "1,906 SCD patients (including children and adults)",
+          "results": "Significant reduction in VOCs, ACS episodes, hospitalizations, and transfusions"
+        }
+      ],
+      "adverse_effects": [
+        "Infections",
+        "Low white blood cell counts (in children)",
+        "Headache",
+        "Dry skin (in adults)",
+        "Fertility problems (in males)",
+        "Skin protection and cancer screening advised"
+      ]
+    }
+  ]
+}
