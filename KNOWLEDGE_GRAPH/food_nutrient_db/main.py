@@ -2,8 +2,6 @@ from langchain_community.graphs import Neo4jGraph
 from langchain.chains import GraphCypherQAChain
 from langchain.prompts.prompt import PromptTemplate
 from langchain_openai import ChatOpenAI
-
-
 import dotenv
 dotenv.load_dotenv()
 
@@ -11,6 +9,15 @@ dotenv.load_dotenv()
 NEO4J_CONNECTION_URL='neo4j+s://c492bfaa.databases.neo4j.io:7687'
 NEO4J_USER='neo4j'
 NEO4J_PASSWORD='qTS9vkpSZT1yZ57kseVCw2csO2Zx25IOMoYJAGoo2p0'
+
+
+##Nutrienttion is per hundred grams
+age = '19-70y'
+gender = 'Female'
+previous_meals = 'Hummus'
+previous_quantities = '10g'
+desired_meal = 'Firm Tofu'
+desired_quantities = '20g'
 
 
 # Cypher generation prompt
@@ -26,69 +33,55 @@ You are an expert Neo4j Cypher translator who converts English to Cypher based o
 schema: {schema}
 
 Examples:
-Question: “I am a 37 Year Old Female with Sickle Cell Disease. I have eaten 10g of Wholegrain Rolled Oats today. 
-I am about to eat 20g of Aprapransa, should I eat it?”
+Question: "I am a $age Year Old $gender with Sickle Cell Disease. I have eaten $previous_quantities of $previous_meals. I am about to eat $desired_quantity of $desired_meal, should I go ahead?".
 
 Answer: ```
-MATCH (user:User)-[:NEEDS]->(nutrient:Nutrient)
-WHERE user.age_bracket = "19-70+y" 
-  AND user.gender = "Female" 
-RETURN user, nutrient, user-[:NEEDS]->nutrient AS needsRelationship
+MATCH (user:User)-[user_relationship:NEEDS]->(nutrient:Nutrient)
+WHERE user.age_bracket = $age AND user.gender = $gender
 
-UNION
+MATCH (eaten_food:Food)-[eaten_food_relationship:CONTAINS]->(eaten_food_nutrient:Nutrient)
+WHERE eaten_food.name = $previous_meals
 
-MATCH (eaten_food:Food)-[:CONTAINS]->(eaten_nutrient:Nutrient),
-      (about_to_eat_food:Food)-[:CONTAINS]->(about_to_eat_nutrient:Nutrient)
-WHERE eaten_food.name = "Wholegrain Rolled Oats"
-WITH eaten_food, eaten_nutrient
-RETURN eaten_food.name AS eatenFoodName,
-       eaten_nutrient.name AS eatenNutrientName
+MATCH (eaten_food:Food)-[:CONTAINS_COMPOUND]->(eaten_food_compound:Compound)
+WHERE eaten_food.name = $previous_meals
+MATCH (eaten_food_compound)-[:HAS_EFFECT]->(eaten_food_health_effect:HealthEffect)
 
-       
-UNION
+MATCH (desired_food:Food)-[desired_food_relationship:CONTAINS]->(desired_food_nutrient:Nutrient)
+WHERE desired_food.name = $desired_meal
 
-MATCH (eaten_food:Food)-[:CONTAINS]->(eaten_compound:Compound),
-      (about_to_eat_food:Food)-[:CONTAINS]->(about_to_eat_compound:Compound)
-WHERE eaten_food.name = "Wholegrain Rolled Oats"
-WITH eaten_food, eaten_compound
-RETURN eaten_food.name AS eatenFoodName,
-       eaten_compound.name AS eatenCompoundName
-
-UNION
-
-MATCH (eaten_food:Food)-[:CONTAINS]->(eaten_nutrient:Nutrient),
-      (about_to_eat_food:Food)-[:CONTAINS]->(about_to_eat_nutrient:Nutrient)
-WHERE about_to_eat_food.name = "Aprapransa"
-WITH about_to_eat_food, about_to_eat_nutrient
-RETURN about_to_eat_food.name AS aboutToEatFoodName,
-       about_to_eat_nutrient.name AS aboutToEatNutrientName
-
-UNION
-
-MATCH (eaten_food:Food)-[:CONTAINS]->(eaten_compound:Compound),
-      (about_to_eat_food:Food)-[:CONTAINS]->(about_to_eat_compound:Compound)
-WHERE about_to_eat_food.name = "Aprapransa"
-WITH about_to_eat_food, about_to_eat_compound
-RETURN about_to_eat_food.name AS aboutToEatFoodName,
-       about_to_eat_compound.name AS aboutToEatCompoundName
-
+MATCH (desired_food:Food)-[:CONTAINS_COMPOUND]->(desired_food_compound:Compound)
+WHERE desired_food.name = $desired_meal
+MATCH (desired_food_compound)-[:HAS_EFFECT]->(desired_food_health_effect:HealthEffect)
+RETURN user, nutrient, user_relationship.quantity_needed, eaten_food_relationship.quantity_per_100g, eaten_food_nutrient, desired_food_nutrient, desired_food_relationship.quantity_per_100g;
 ```
 Question: {question}
 """
+
+
 cypher_prompt = PromptTemplate(
     template=cypher_generation_template,
     input_variables=["schema", "question"]
 )
 
-CYPHER_QA_TEMPLATE = """You are an assistant that helps to form nice and human understandable answers.
-The information part contains the provided information that you must use to construct an answer.
-The provided information is authoritative, you must never doubt it or try to use your internal knowledge to correct it.
-Make the answer sound as a response to the question. Do not mention that you based the result on the given information.
-If the provided information is empty, say that you don't know the answer.
-Final answer should be easily readable and structured.
+CYPHER_QA_TEMPLATE = """
+    You are a nutrtition assistant that performs calculations using Information.
+    The Information is in json format.
+    Go through the JSON, looking for anything that corresponds to User, such as property key, using that, find the gender and age.
+
+    The information part contains the provided information that you must use to construct an answer, read and understand its data structure very well.
+
+    In the Information there is user_relationship which shows the quantity needed of a nutrient for a user of certain age and gender.
+    There is also quantity_per_100g which shows the nutrients per 100g of a food.
+
+    You must perform calculations to determine if eating a meal exceeds or falls short of a users Recommended Daily Intake for the day.
+    You perform Recommended daily intake calculations using the user quantity needed to nutrients and the amount of nutrients per 100g contained in foods.
+    Make sure to show all mathematical workings in the result.
+
+    If the provided information is empty, say that you don't know the answer.
+
+
 Information:
 {context}
-
 Question: {question}
 Helpful Answer:"""
 
@@ -104,7 +97,7 @@ def query_graph(user_input):
         cypher_llm=ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo'),
         qa_llm=ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo'),
         graph=graph,
-        verbose=True,
+        #verbose=True,
         return_intermediate_steps=True,
         cypher_prompt=cypher_prompt,
         qa_prompt=qa_prompt,
@@ -115,7 +108,7 @@ def query_graph(user_input):
     print(result)
     return result
 
-query_graph(" I am a 37 Year Old Female with Sickle Cell Disease. I have eaten 10g of Wholegrain Rolled Oats today. I am about to eat 20g of Aprapransa, should I eat it?")
+query_graph("I am a {} Year Old {}. I have eaten {} of {}. I am about to eat {} of {}, should I eat it?".format('1-18y', 'Male', previous_quantities, previous_meals, desired_quantities, desired_meal))
 
 
 
