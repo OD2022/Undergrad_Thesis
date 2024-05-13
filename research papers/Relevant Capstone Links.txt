@@ -1,7 +1,6 @@
 https://www.youtube.com/watch?v=ytlhMAF6ok0  - Custom Instance Segmentation
 https://www.youtube.com/watch?v=pFiGSrRtaU4  - Custom Instance Segmentation
 https://www.youtube.com/watch?v=m9fH9OWn8YM&t=53s - Train Yolov8 object detection on a custom dataset
-https://www.youtube.com/watch?v=E_5HJHGoHiI&t=95s - Zoe Depth Estimation
 https://www.youtube.com/watch?v=aVKGjzAUHz0 - Image segmentation with Yolov8 custom dataset
 https://www.youtube.com/watch?v=DMRlOWfRBKU&t=45s - YOLOv8 Instance Segmentation on Custom Dataset | Windows & Linux
 https://universe.roboflow.com/tolulope-elijiah-srva1/food-detect-ocimu/dataset/1
