@@ -1,4 +1,6 @@
 {
+    "DietaryReferenceIntakes": {
+      "NutrientsSuggestedForNutritionManagementOfSCD": {
         "Protein": {
           "Male": {
             "1-3y": 13,
@@ -198,5 +200,7 @@
             }
         }
       }
-
+    }
+  }
+  
   
