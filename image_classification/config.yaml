@@ -1,7 +1,0 @@
-path: /Users/Ibukun-Oluwa/Desktop/Undergrad_Thesis/image_classification/data/jollof-rice
-train: images/train  # train images (relative to 'path')
-val: images/train  # val images (relative to 'path')
-
-# Classes
-names:
-  0: jollof-rice
