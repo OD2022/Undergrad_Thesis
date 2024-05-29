@@ -29,10 +29,10 @@ for food in selected_desired_options:
 
 st.radio('What is your gender?',['Male','Female'])
 st.selectbox('Pick your Age Group',['1-18','18-70', '70+'])
+st.text_input('What is your weight in kilograms?')
+st.text_input('What is your height in meters?')
 st.radio("Select the system providing your report", ['Detailed', 'Summary', 'Explanatory'])
 st.button('Get Advice')
-
-
 
 
 st.markdown(
