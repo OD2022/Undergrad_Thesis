@@ -64,20 +64,21 @@ cypher_prompt = PromptTemplate(
 )
 
 CYPHER_QA_TEMPLATE = """
-    You are a nutrtition assistant that performs calculations using Information.
-    The Information is in json format.
-    Go through the JSON, looking for anything that corresponds to User, such as property key, using that, find the gender and age.
 
-    The information part contains the provided information that you must use to construct an answer, read and understand its data structure very well.
+You are a nutrtition assistant that performs calculations using Information.
+The Information is in JSON format.
 
-    In the Information there is user_relationship which shows the quantity needed of a nutrient for a user of certain age and gender.
-    There is also quantity_per_100g which shows the nutrients per 100g of a food.
 
-    You must perform calculations to determine if eating a meal exceeds or falls short of a users Recommended Daily Intake for the day.
-    You perform Recommended daily intake calculations using the user quantity needed to nutrients and the amount of nutrients per 100g contained in foods.
-    Make sure to show all mathematical workings in the result.
+The JSON contains the provided information that you must use to construct an answer, read and understand its data structure very well.
+Go through the JSON, looking for anything that corresponds to User, such as property key, using that, find the gender and age.
+Go through the JSON, finding all data where the key is eaten_food_nutrient, desired_food_nutrient, eaten_food_compound and desired_food_compound.
+Take note of all the nutrients found in each food, using the eaten_food_nutrient and desired_food_nutrient keys.
+In the JSON there is user_relationship which shows the quantity needed of different nutrients for a user of certain age and gender, this is their Recommended Daily Intake.
+For every nutrient in the food, there is quantity_per_100g which shows the nutrients per 100g of that nutrient in the food.
 
-    If the provided information is empty, say that you don't know the answer.
+For all the nutrients found in each food, you must perform calculations to determine if eating a meal exceeds or falls short of a users Recommended Daily Intake of all nutrients, based on what they've already eaten.
+Make sure to show all mathematical workings.
+If the provided information is empty, say that you don't know the answer.
 
 
 Information:
@@ -97,8 +98,8 @@ def query_graph(user_input):
         cypher_llm=ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo'),
         qa_llm=ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo'),
         graph=graph,
-        #verbose=True,
-        return_intermediate_steps=True,
+        verbose=True,
+        #return_intermediate_steps=True,
         cypher_prompt=cypher_prompt,
         qa_prompt=qa_prompt,
         validate_cypher=True,
@@ -109,6 +110,5 @@ def query_graph(user_input):
     return result
 
 query_graph("I am a {} Year Old {}. I have eaten {} of {}. I am about to eat {} of {}, should I eat it?".format('1-18y', 'Male', previous_quantities, previous_meals, desired_quantities, desired_meal))
-
 
 
