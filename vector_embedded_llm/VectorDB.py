@@ -36,10 +36,11 @@ qa_chain = ConversationalRetrievalChain.from_llm(
 
 chat_history = []
 while True:
-    query = input('Prompt: ')
-    if query == "exit" or query == "quit" or query == "q":
+    question = input('Prompt: ')
+    final_query = 'You are a nutrition assistant for sickle cell disease, you are to search for information pertaining to the Recommended Daily intake of certain nutrients based on age and gender. You are to also search for information about the nutritional content of mentioned foods to perform your calculation. Do not rely on your knowledge. ' + question
+    if question == "exit" or question == "quit" or question == "q":
         print('Exiting')
         sys.exit()
-    result = qa_chain({'question': query, 'chat_history': chat_history})
+    result = qa_chain({'question': final_query, 'chat_history': chat_history})
     print('Answer: ' + result['answer'])
-    chat_history.append((query, result['answer']))
+    chat_history.append((question, result['answer']))
