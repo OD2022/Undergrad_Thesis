@@ -1,0 +1,614 @@
+[
+    {
+        "id": "coles-muslie-almond",
+        "name": "Muesli (Almond)",
+        "nutrition-per-100g": {
+            "energy": 1560,
+            "protein": 12.3,
+            "fat": 9.9,
+            "saturated-fat": 2.8,
+            "carbohydrate": 51.7,
+            "sugars": 19.7,
+            "dietary-fibre": 13,
+            "sodium": 6
+        },
+        "tags": ["grain", "carb"],
+        "compounds": [
+            "Petunidin 3-O-(6''-acetyl-galactoside)",
+            "Caffeic acid",
+            "Quercetin"
+        ]
+    },
+    {
+        "id": "coles-rolled-oats-wholegrain",
+        "name": "Wholegrain Rolled Oats",
+        "nutrition-per-100g": {
+            "energy": 1680,
+            "protein": 13.3,
+            "fat": 9.8,
+            "saturated-fat": 1.7,
+            "carbohydrate": 60.3,
+            "sugars": 1.2,
+            "dietary-fibre": 0.0086,
+            "sodium": 7,
+            "potassium": 313
+        },
+        "tags": ["grain", "carb"],
+        "compounds": [
+            "Rutin",
+            "Chlorogenic acid",
+            "Kaempferol"
+        ]
+    },
+    {
+        "id": "sanitarium-almond-milk",
+        "name": "Almond Milk",
+        "nutrition-per-100ml": {
+            "energy": 130,
+            "protein": 0.5,
+            "fat": 1.2,
+            "saturated-fat": 0.1,
+            "trans-fat": 0,
+            "polyunsaturated-fat": 0.3,
+            "monounsaturated-fat": 0.8,
+            "carbohydrate": 4.6,
+            "sugars": 4.4,
+            "dietary-fibre": 0.3,
+            "sodium": 35,
+            "potassium": 15,
+            "calcium": 75,
+            "vitamin-e": 0.4
+        },
+        "tags": ["snack"],
+        "compounds": [
+            "Saponin",
+            "Tocopherol",
+            "Phytic acid"
+        ]
+    },
+    {
+        "id": "coles-soy-milk-regular",
+        "name": "Soy Milk",
+        "nutrition-per-100ml": {
+            "energy": 244,
+            "protein": 3.1,
+            "fat": 3.0,
+            "saturated-fat": 0.2,
+            "trans-fat": 0.2,
+            "polyunsaturated-fat": 1,
+            "monounsaturated-fat": 1.8,
+            "carbohydrate": 4.7,
+            "sugars": 1.6,
+            "dietary-fibre": 0,
+            "sodium": 47
+        },
+        "contains": [
+            "canola-oil",
+            "maltodextrin"
+        ],
+        "compounds": [
+            "Genistein",
+            "Daidzein",
+            "Isoflavones"
+        ]
+    },
+    {
+        "id": "simply-better-organic-tofu-plain-firm",
+        "name": "Firm Tofu",
+        "nutrition-per-100g": {
+            "energy": 615,
+            "protein": 15.9,
+            "fat": 8.8,
+            "saturated-fat": 2.7,
+            "trans-fat": 0.1,
+            "polyunsaturated-fat": 6.9,
+            "monounsaturated-fat": 3.0,
+            "carbohydrate": 0.3,
+            "sugars": 0.3,
+            "sodium": 17
+        },
+        "compounds": [
+            "Isoflavones",
+            "Saponins",
+            "Oligosaccharides"
+        ]
+    },
+    {
+        "id": "sss-hummus-dip",
+        "name": "Hummus",
+        "nutrition-per-100g": {
+            "energy": 709,
+            "protein": 8.4,
+            "fat": 10.8,
+            "saturated-fat": 1.8,
+            "dietary-fibre": 11,
+            "carbohydrate": 4.6,
+            "sugars": 0.6,
+            "sodium": 378
+        },
+        "tags": ["legume", "snack"],
+        "compounds": [
+            "Oleic acid",
+            "Tocopherol",
+            "Phytic acid"
+        ]
+    },
+    {
+        "id": "sss-aprapransa",
+        "name": "Aprapransa",
+        "nutrition-per-100g": {
+          "energy": 600,
+          "protein": 12.5,
+          "fat": 5.7,
+          "saturated-fat": 1.2,
+          "dietary-fibre": 9,
+          "carbohydrate": 25.5,
+          "sugars": 3.2,
+          "sodium": 200
+        },
+        "tags": ["tuber", "main dish"],
+        "compounds": [
+          "Beta-glucans"
+        ]
+      },
+        {
+            "id": "sss-yam-kontomire-stew",
+            "name": "Yam with kontomire stew",
+            "nutrition-per-100g": {
+              "moisture": 93.9,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 6.6,
+              "copper": 60,
+              "zinc": 2.5,
+              "calcium": 103.6,
+              "magnesium": 43.3,
+              "potassium": 374.0,
+              "manganese": 0.7,
+              "sodium": 443.3
+            },
+            "tags": ["tuber", "main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-yam-garden-egg-stew",
+            "name": "Yam with garden egg stew",
+            "nutrition-per-100g": {
+              "moisture": 92.1,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 3.6,
+              "copper": 70,
+              "zinc": 2.2,
+              "calcium": 13.5,
+              "magnesium": 41.2,
+              "potassium": 367.7,
+              "manganese": 0.4,
+              "sodium": 423.0
+            },
+            "tags": ["tuber", "main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-plantain-kontomire-stew",
+            "name": "Plantain with kontomire stew",
+            "nutrition-per-100g": {
+              "moisture": 93.3,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 7.1,
+              "copper": "ND",
+              "zinc": 2.01,
+              "calcium": 116.1,
+              "magnesium": 46.4,
+              "potassium": 371.0,
+              "manganese": 0.8,
+              "sodium": 409.2
+            },
+            "tags": ["fruit", "main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-plantain-garden-egg-stew",
+            "name": "Plantain with garden egg stew",
+            "nutrition-per-100g": {
+              "moisture": 91.5,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 4.1,
+              "copper": 10,
+              "zinc": 1.7,
+              "calcium": 26.0,
+              "magnesium": 44.2,
+              "potassium": 364.7,
+              "manganese": 0.5,
+              "sodium": 388.8
+            },
+            "tags": ["fruit", "main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-fufu-light-soup",
+            "name": "Fufu with light soup",
+            "nutrition-per-100g": {
+              "moisture": 86.3,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 8.1,
+              "copper": 360,
+              "zinc": 3.8,
+              "calcium": 12.2,
+              "magnesium": 42.7,
+              "potassium": 379.8,
+              "manganese": 0.6,
+              "sodium": 360.8
+            },
+            "tags": ["main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-fufu-palm-nut-soup",
+            "name": "Fufu with palm-nut soup",
+            "nutrition-per-100g": {
+              "moisture": 93.4,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 6.3,
+              "copper": 440,
+              "zinc": 2.2,
+              "calcium": 27.5,
+              "magnesium": 45.3,
+              "potassium": 351.8,
+              "manganese": 0.6,
+              "sodium": 303.8
+            },
+            "tags": ["main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-fufu-groundnut-soup",
+            "name": "Fufu with groundnut soup",
+            "nutrition-per-100g": {
+              "moisture": 87.1,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 10.5,
+              "copper": 500,
+              "zinc": 4.2,
+              "calcium": 10.6,
+              "magnesium": 44.5,
+              "potassium": 353.5,
+              "manganese": 0.7,
+              "sodium": 367.3
+            },
+            "tags": ["main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-konkonte-palm-nut-soup",
+            "name": "Konkonte with palm-nut soup",
+            "nutrition-per-100g": {
+              "moisture": 93.5,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 14.1,
+              "copper": "ND",
+              "zinc": 3.3,
+              "calcium": 146.7,
+              "magnesium": 44.6,
+              "potassium": 340.3,
+              "manganese": 0.8,
+              "sodium": 353.3
+            },
+            "tags": ["main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-konkonte-groundnut-soup",
+            "name": "Konkonte with groundnut soup",
+            "nutrition-per-100g": {
+              "moisture": 92.7,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 13.2,
+              "copper": "ND",
+              "zinc": 3.1,
+              "calcium": 158.2,
+              "magnesium": 47.1,
+              "potassium": 384.7,
+              "manganese": 0.9,
+              "sodium": 409.7
+            },
+            "tags": ["main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-akple-okro-soup",
+            "name": "Akple with okro soup",
+            "nutrition-per-100g": {
+              "moisture": 91.0,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 5.3,
+              "copper": "ND",
+              "zinc": 3.0,
+              "calcium": 14.5,
+              "magnesium": 45.7,
+              "potassium": 330.0,
+              "manganese": 0.7,
+              "sodium": 556.7
+            },
+            "tags": ["main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-kooko-bread",
+            "name": "Kooko with bread",
+            "nutrition-per-100g": {
+              "moisture": 91.4,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 4.8,
+              "copper": "ND",
+              "zinc": 1.1,
+              "calcium": 4.9,
+              "magnesium": 35.8,
+              "potassium": 131.7,
+              "manganese": 0.5,
+              "sodium": 193.7
+            },
+            "tags": ["main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-kenkey-fried-fish-pepper",
+            "name": "Kenkey with fried fish and pepper",
+            "nutrition-per-100g": {
+              "moisture": 94.3,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 13.0,
+              "copper": "ND",
+              "zinc": 2.8,
+              "calcium": 100.0,
+              "magnesium": 45.3,
+              "potassium": 266.7,
+              "manganese": 0.7,
+              "sodium": 498.3
+            },
+            "tags": ["main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-jollof-rice",
+            "name": "Jollof rice",
+            "nutrition-per-100g": {
+              "moisture": 95.1,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 4.8,
+              "copper": "ND",
+              "zinc": 3.5,
+              "calcium": 9.6,
+              "magnesium": 39.0,
+              "potassium": 235.7,
+              "manganese": 0.8,
+              "sodium": 507.0
+            },
+            "tags": ["main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-plain-rice-stew",
+            "name": "Plain rice and stew",
+            "nutrition-per-100g": {
+              "moisture": 95.0,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 4.3,
+              "copper": "ND",
+              "zinc": 2.8,
+              "calcium": 59.8,
+              "magnesium": 41.8,
+              "potassium": 185.7,
+              "manganese": 0.8,
+              "sodium": 442.0
+            },
+            "tags": ["main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-omo-tuo-palm-nut-soup",
+            "name": "Omo tuo with palm-nut soup",
+            "nutrition-per-100g": {
+              "moisture": 91.4,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 12.5,
+              "copper": "ND",
+              "zinc": 2.7,
+              "calcium": 48.7,
+              "magnesium": 45.5,
+              "potassium": 230.0,
+              "manganese": 1.0,
+              "sodium": 556.0
+            },
+            "tags": ["main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-omo-tuo-groundnut-soup",
+            "name": "Omo tuo with groundnut soup",
+            "nutrition-per-100g": {
+              "moisture": 86.9,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 11.1,
+              "copper": 500,
+              "zinc": 4.7,
+              "calcium": 9.8,
+              "magnesium": 38.5,
+              "potassium": 205.0,
+              "manganese": 0.8,
+              "sodium": 511.2
+            },
+            "tags": ["main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-waakye-stew",
+            "name": "Waakye with stew",
+            "nutrition-per-100g": {
+              "moisture": 95.1,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 5.3,
+              "copper": 1550,
+              "zinc": 2.9,
+              "calcium": 24.7,
+              "magnesium": 46.7,
+              "potassium": 292.3,
+              "manganese": 1.1,
+              "sodium": 523.0
+            },
+            "tags": ["main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-hausa-kooko-bread-akara",
+            "name": "Hausa Kooko with bread and akara",
+            "nutrition-per-100g": {
+              "moisture": 91.1,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 15.5,
+              "copper": 20,
+              "zinc": 2.3,
+              "calcium": 9.9,
+              "magnesium": 42.2,
+              "potassium": 166.7,
+              "manganese": 1.2,
+              "sodium": 236.0
+            },
+            "tags": ["main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-tuo-zaafi",
+            "name": "Tuo zaafi",
+            "nutrition-per-100g": {
+              "moisture": 90.9,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 7.7,
+              "copper": "ND",
+              "zinc": 4.0,
+              "calcium": 28.7,
+              "magnesium": 46.8,
+              "potassium": 376.0,
+              "manganese": 1.3,
+              "sodium": 492.0
+            },
+            "tags": ["main dish"],
+            "compounds": []
+        },
+        {
+            "id": "sss-beans-fried-plantain",
+            "name": "Beans with fried plantain",
+            "nutrition-per-100g": {
+              "moisture": 94.5,
+              "protein": "ND",
+              "fat": "ND",
+              "saturated-fat": "ND",
+              "dietary-fibre": "ND",
+              "carbohydrate": "ND",
+              "sugars": "ND",
+              "iron": 8.0,
+              "copper": 90,
+              "zinc": 2.9,
+              "calcium": 21.3,
+              "magnesium": 46.5,
+              "potassium": 409.0,
+              "manganese": 1.1,
+              "sodium": 364.7
+            },
+            "tags": ["main dish"],
+            "compounds": []
+        }    
+]
