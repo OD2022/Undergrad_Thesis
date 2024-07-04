@@ -148,7 +148,7 @@
         },
         "tags": ["tuber", "main dish"],
         "compounds": [
-          "Beta-glucans"
+          "Beta-glucans", 	"Diosgenin"
         ]
       },
         {
@@ -156,12 +156,7 @@
             "name": "Yam with kontomire stew",
             "nutrition-per-100g": {
               "moisture": 93.9,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+           
               "iron": 6.6,
               "copper": 60,
               "zinc": 2.5,
@@ -172,19 +167,14 @@
               "sodium": 443.3
             },
             "tags": ["tuber", "main dish"],
-            "compounds": []
+            "compounds": ["Diosgenin"]
         },
         {
             "id": "sss-yam-garden-egg-stew",
             "name": "Yam with garden egg stew",
             "nutrition-per-100g": {
               "moisture": 92.1,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+           
               "iron": 3.6,
               "copper": 70,
               "zinc": 2.2,
@@ -195,21 +185,15 @@
               "sodium": 423.0
             },
             "tags": ["tuber", "main dish"],
-            "compounds": []
+            "compounds": ["Diosgenin", "Solasodine"]
         },
         {
             "id": "sss-plantain-kontomire-stew",
             "name": "Plantain with kontomire stew",
             "nutrition-per-100g": {
               "moisture": 93.3,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+           
               "iron": 7.1,
-              "copper": "ND",
               "zinc": 2.01,
               "calcium": 116.1,
               "magnesium": 46.4,
@@ -218,19 +202,14 @@
               "sodium": 409.2
             },
             "tags": ["fruit", "main dish"],
-            "compounds": []
+            "compounds": ["Oxaluric acid"]
         },
         {
             "id": "sss-plantain-garden-egg-stew",
             "name": "Plantain with garden egg stew",
             "nutrition-per-100g": {
               "moisture": 91.5,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+ 
               "iron": 4.1,
               "copper": 10,
               "zinc": 1.7,
@@ -241,19 +220,14 @@
               "sodium": 388.8
             },
             "tags": ["fruit", "main dish"],
-            "compounds": []
+            "compounds": ["Solasodine"]
         },
         {
             "id": "sss-fufu-light-soup",
             "name": "Fufu with light soup",
             "nutrition-per-100g": {
               "moisture": 86.3,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+
               "iron": 8.1,
               "copper": 360,
               "zinc": 3.8,
@@ -264,19 +238,14 @@
               "sodium": 360.8
             },
             "tags": ["main dish"],
-            "compounds": []
+            "compounds": ["Amylose"]
         },
         {
             "id": "sss-fufu-palm-nut-soup",
             "name": "Fufu with palm-nut soup",
             "nutrition-per-100g": {
               "moisture": 93.4,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+           
               "iron": 6.3,
               "copper": 440,
               "zinc": 2.2,
@@ -287,19 +256,13 @@
               "sodium": 303.8
             },
             "tags": ["main dish"],
-            "compounds": []
+            "compounds": ["Amylose"]
         },
         {
             "id": "sss-fufu-groundnut-soup",
             "name": "Fufu with groundnut soup",
             "nutrition-per-100g": {
               "moisture": 87.1,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
               "iron": 10.5,
               "copper": 500,
               "zinc": 4.2,
@@ -310,21 +273,16 @@
               "sodium": 367.3
             },
             "tags": ["main dish"],
-            "compounds": []
+            "compounds": ["Amylose"]
         },
         {
             "id": "sss-konkonte-palm-nut-soup",
             "name": "Konkonte with palm-nut soup",
             "nutrition-per-100g": {
               "moisture": 93.5,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+          
               "iron": 14.1,
-              "copper": "ND",
+
               "zinc": 3.3,
               "calcium": 146.7,
               "magnesium": 44.6,
@@ -340,14 +298,9 @@
             "name": "Konkonte with groundnut soup",
             "nutrition-per-100g": {
               "moisture": 92.7,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+           
               "iron": 13.2,
-              "copper": "ND",
+    
               "zinc": 3.1,
               "calcium": 158.2,
               "magnesium": 47.1,
@@ -363,14 +316,8 @@
             "name": "Akple with okro soup",
             "nutrition-per-100g": {
               "moisture": 91.0,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+           
               "iron": 5.3,
-              "copper": "ND",
               "zinc": 3.0,
               "calcium": 14.5,
               "magnesium": 45.7,
@@ -379,21 +326,16 @@
               "sodium": 556.7
             },
             "tags": ["main dish"],
-            "compounds": []
+            "compounds": ["Polysaccharide"]
         },
         {
             "id": "sss-kooko-bread",
             "name": "Kooko with bread",
             "nutrition-per-100g": {
               "moisture": 91.4,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+          
               "iron": 4.8,
-              "copper": "ND",
+
               "zinc": 1.1,
               "calcium": 4.9,
               "magnesium": 35.8,
@@ -402,21 +344,15 @@
               "sodium": 193.7
             },
             "tags": ["main dish"],
-            "compounds": []
+            "compounds": ["Potassium bromate(V) (KBrO3)"]
         },
         {
             "id": "sss-kenkey-fried-fish-pepper",
             "name": "Kenkey with fried fish and pepper",
             "nutrition-per-100g": {
               "moisture": 94.3,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+
               "iron": 13.0,
-              "copper": "ND",
               "zinc": 2.8,
               "calcium": 100.0,
               "magnesium": 45.3,
@@ -432,14 +368,8 @@
             "name": "Jollof rice",
             "nutrition-per-100g": {
               "moisture": 95.1,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+
               "iron": 4.8,
-              "copper": "ND",
               "zinc": 3.5,
               "calcium": 9.6,
               "magnesium": 39.0,
@@ -455,14 +385,8 @@
             "name": "Plain rice and stew",
             "nutrition-per-100g": {
               "moisture": 95.0,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
               "iron": 4.3,
-              "copper": "ND",
+
               "zinc": 2.8,
               "calcium": 59.8,
               "magnesium": 41.8,
@@ -478,14 +402,8 @@
             "name": "Omo tuo with palm-nut soup",
             "nutrition-per-100g": {
               "moisture": 91.4,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+           
               "iron": 12.5,
-              "copper": "ND",
               "zinc": 2.7,
               "calcium": 48.7,
               "magnesium": 45.5,
@@ -501,12 +419,7 @@
             "name": "Omo tuo with groundnut soup",
             "nutrition-per-100g": {
               "moisture": 86.9,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+           
               "iron": 11.1,
               "copper": 500,
               "zinc": 4.7,
@@ -524,12 +437,7 @@
             "name": "Waakye with stew",
             "nutrition-per-100g": {
               "moisture": 95.1,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+            
               "iron": 5.3,
               "copper": 1550,
               "zinc": 2.9,
@@ -547,12 +455,7 @@
             "name": "Hausa Kooko with bread and akara",
             "nutrition-per-100g": {
               "moisture": 91.1,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+ 
               "iron": 15.5,
               "copper": 20,
               "zinc": 2.3,
@@ -570,14 +473,9 @@
             "name": "Tuo zaafi",
             "nutrition-per-100g": {
               "moisture": 90.9,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+             
               "iron": 7.7,
-              "copper": "ND",
+ 
               "zinc": 4.0,
               "calcium": 28.7,
               "magnesium": 46.8,
@@ -593,12 +491,7 @@
             "name": "Beans with fried plantain",
             "nutrition-per-100g": {
               "moisture": 94.5,
-              "protein": "ND",
-              "fat": "ND",
-              "saturated-fat": "ND",
-              "dietary-fibre": "ND",
-              "carbohydrate": "ND",
-              "sugars": "ND",
+          
               "iron": 8.0,
               "copper": 90,
               "zinc": 2.9,
@@ -609,6 +502,6 @@
               "sodium": 364.7
             },
             "tags": ["main dish"],
-            "compounds": []
+            "compounds": [""]
         }    
 ]
