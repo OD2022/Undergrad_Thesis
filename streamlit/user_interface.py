@@ -2,7 +2,6 @@ import streamlit as st
 import json
 import os
 
-
 def execute_python_file(file_path):
    try:
       with open(file_path, 'r') as file:
@@ -33,13 +32,13 @@ selected_desired_options = st.multiselect('What are you planning to eat now?', d
 stomach = {}
 for food in selected_eaten_options:
         slider_label = f'Quantity in Grams for {food + ' eaten'}'
-        amount = st.sidebar.slider(slider_label, 0, 10000)
+        amount = st.sidebar.slider(slider_label, 0, 1000)
         stomach[food] = amount
 
 desired_foods = {}
 for food in selected_desired_options:
         slider_label = f'Select Quantity in Grams for {food + ' desired'}'
-        amount = st.sidebar.slider(slider_label, 0, 10000)
+        amount = st.sidebar.slider(slider_label, 0, 1000)
         desired_foods[food] = amount
 
 

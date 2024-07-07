@@ -1,0 +1,1 @@
+{"query": "I am a 1-18y Year Old Female. with Sickle Cell Disease. I have eaten [38, 52, 109]g of ['Shitto', 'Fried Chicken', 'Jollof Rice'] respectively. I am about to eat [53, 112]g of ['Grilled Chicken', 'Plantain with kontomire stew'] respectively. Should I eat it?", "result": "I don't have the necessary information to provide an answer."}
