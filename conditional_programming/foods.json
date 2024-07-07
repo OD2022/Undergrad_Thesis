@@ -51,9 +51,6 @@
         },
         "tags": ["grain", "carb"],
         "compounds": [
-            "Petunidin 3-O-(6''-acetyl-galactoside)",
-            "Caffeic acid",
-            "Quercetin"
         ]
     },
     "Shitto": {
@@ -70,9 +67,6 @@
         },
         "tags": [],
         "compounds": [
-            "Petunidin 3-O-(6''-acetyl-galactoside)",
-            "Caffeic acid",
-            "Quercetin"
         ]
     },
     "Rice Balls": {
@@ -383,14 +377,8 @@
             "id": "sss-kooko-bread",
             "nutrition-per-100g": {
                 "moisture": 91.4,
-                "protein": "ND",
-                "fat": "ND",
-                "saturated-fat": "ND",
-                "dietary-fibre": "ND",
-                "carbohydrate": "ND",
-                "sugars": "ND",
+
                 "iron": 4.8,
-                "copper": "ND",
                 "zinc": 1.1,
                 "calcium": 4.9,
                 "magnesium": 35.8,
@@ -436,7 +424,6 @@
             "nutrition-per-100g": {
                 "moisture": 95.0,
                 "iron": 4.3,
-
                 "zinc": 2.8,
                 "calcium": 59.8,
                 "magnesium": 41.8,

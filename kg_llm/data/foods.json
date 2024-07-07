@@ -113,6 +113,33 @@
             "Oligosaccharides"
         ]
     },
+    {  
+      "id": "Tom Brown",
+      "name": "Tom Brown",
+      "nutrition-per-100g": {
+            "energy": 298,
+            "protein": 13,
+            "fat": 15,
+            "carbohydrate": 27.5
+        },
+        "tags": ["grain", "carb"],
+        "compounds": [
+        ]
+    },
+    {
+      "id": "Shitto",
+      "name": "Shitto",
+      "nutrition-per-100g": {
+          "energy": 60.6,
+          "protein": 0.69,
+          "fat": 6.11,
+          "carbohydrate": 0.71
+
+      },
+      "tags": [],
+      "compounds": [
+      ]
+  },
     {
         "id": "sss-hummus-dip",
         "name": "Hummus",

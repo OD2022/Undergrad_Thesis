@@ -62,8 +62,80 @@ def get_meal_carbohydrate(food, quantity):
     carbohydrate = (foods_db[food]['nutrition-per-100g']['carbohydrate']) * quantity / 100
     return carbohydrate
 
+def get_meal_moisture(food, quantity):
+    moisture = 0
+    moisture = (foods_db[food]['nutrition-per-100g']['moisture']) * quantity / 100
+    return moisture
+
+def get_meal_calcium(food, quantity):
+    calcium = 0
+    calcium = (foods_db[food]['nutrition-per-100g']['calcium']) * quantity / 100
+    return calcium
+
+def get_meal_sodium(food, quantity):
+    sodium = 0
+    sodium = (foods_db[food]['nutrition-per-100g']['sodium']) * quantity / 100
+    return sodium
+
+def get_meal_dietary_fibre(food, quantity):
+    copper = 0
+    copper = (foods_db[food]['nutrition-per-100g']['copper']) * quantity / 100
+    return copper
+
+def get_meal_saturated_fat(food, quantity):
+    saturated_fat = 0
+    if (foods_db[food]['nutrition-per-100g']['saturated_fat']) is not None:
+        magnesium = (foods_db[food]['nutrition-per-100g']['saturated_fat']) * quantity / 100
+    return saturated_fat
+
+def get_meal_fat(food, quantity):
+    fat = 0
+    if (foods_db[food]['nutrition-per-100g']['fat']) is not None:
+       fat = (foods_db[food]['nutrition-per-100g']['fat']) * quantity / 100
+    return fat
+
+def get_meal_sugars(food, quantity):
+    sugars = 0
+    if (foods_db[food]['nutrition-per-100g']['sugars']) is not None:
+        sugars = (foods_db[food]['nutrition-per-100g']['sugars']) * quantity / 100
+    return sugars
+
+def get_meal_copper(food, quantity):
+    copper = 0
+    if (foods_db[food]['nutrition-per-100g']['copper']) is not None:
+        copper = (foods_db[food]['nutrition-per-100g']['copper']) * quantity / 100
+    return copper
+
+def get_meal_iron(food, quantity):
+    iron = 0
+    if (foods_db[food]['nutrition-per-100g']['iron']) is not None:
+        iron = (foods_db[food]['nutrition-per-100g']['iron']) * quantity / 100
+    return iron
+
+def get_meal_zinc(food, quantity):
+    zinc = 0
+    if (foods_db[food]['nutrition-per-100g']['zinc']) is not None:
+        zinc = (foods_db[food]['nutrition-per-100g']['zinc']) * quantity / 100
+    return zinc
+
+def get_meal_potassium(food, quantity):
+    potassium = 0
+    if (foods_db[food]['nutrition-per-100g']['potassium']) is not None:
+        potassium = (foods_db[food]['nutrition-per-100g']['potassium']) * quantity / 100
+    return potassium
+
+def get_meal_manganese(food, quantity):
+    manganese = 0
+    if (foods_db[food]['nutrition-per-100g']['manganese']) is not None:
+        manganese = (foods_db[food]['nutrition-per-100g']['manganese']) * quantity / 100
+    return manganese
 
 
+def get_meal_magnesium(food, quantity):
+    magnesium = 0
+    if (foods_db[food]['nutrition-per-100g']['magnesium']) is not None:
+        magnesium = (foods_db[food]['nutrition-per-100g']['magnesium']) * quantity / 100
+    return magnesium
 
 
 # def evaluate_all_nutrients(food, quantity, age, sex):

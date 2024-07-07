@@ -7,8 +7,10 @@ from langchain_openai import OpenAIEmbeddings
 from langchain.chains import ConversationalRetrievalChain
 from langchain_openai import ChatOpenAI
 from chromadb.utils import embedding_functions
+
+
 openai_ef = embedding_functions.OpenAIEmbeddingFunction(
-                model_name="text-embedding-ada-002"
+                model_name="text-embedding-ada-002",
             )
 
 os.environ["OPENAI_API_KEY"] = "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"
@@ -36,9 +38,8 @@ vectordb.persist()
 #     return_source_documents=True
 # )
 
-
 ##User Interface
-st.title("IOEA's Sickle Cell Disease Nutrtition Consultant")
+st.title("Helena's Sickle Cell Disease Nutrtition Consultant")
 
 if "messages" not in st.session_state:
     st.chat_history = []
