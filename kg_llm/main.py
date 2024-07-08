@@ -257,6 +257,19 @@ if submitted:
        compound_result = query_graph(cypher_prompt2, qa_prompt_2, 'compound')
        container2.write(compound_result)
 
-  
+st.markdown(
+    f"""
+    <style>
+        img {{
+            border-radius: 80%;
+            overflow: hidden;
+            width: 200px;
+            height: 200px;
+           
+        }}
+    </style>
+    """,
+    unsafe_allow_html=True
+) 
 
 
