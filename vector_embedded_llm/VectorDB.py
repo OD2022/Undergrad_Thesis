@@ -7,6 +7,8 @@ from langchain_openai import ChatOpenAI
 from langchain_community.embeddings.sentence_transformer import (SentenceTransformerEmbeddings)
 from langchain.prompts import SystemMessagePromptTemplate, ChatPromptTemplate, HumanMessagePromptTemplate
 from langchain.chains import RetrievalQA
+from langchain.memory import ConversationBufferMemory
+from langchain.chains import ConversationChain
 
 os.environ["OPENAI_API_KEY"] 
 embedding_function = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
@@ -22,7 +24,14 @@ text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=10)
 chunked_documents = text_splitter.split_documents(documents)
 vectorstore = Chroma.from_documents(chunked_documents, embedding_function)
 
+
+
+
 general_system_template = r""" 
+DO NOT USE DATA OUTSIDE OF THE DOCUMENT INFORMATION MADE AVAILABLE TO YOU.
+DO NOT USE DATA OUTSIDE OF THE DOCUMENT INFORMATION MADE AVAILABLE TO YOU.
+
+
 You are a sickle cell nutrtition assistant that analyzes documents about foods, the amount of nutrients in them, their compounds and health effects.
 Your first goal is to determine, via calculations, if eating a meal, will make a user exceed their recommended daily intake for sickle cell disease.
 
@@ -60,7 +69,7 @@ if "openai_model" not in st.session_state:
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+         st.markdown(message["content"])
 
 if prompt := st.chat_input("Ask Me Questions"):
     st.session_state.messages.append({"role": "user", "content": prompt})
@@ -70,12 +79,13 @@ if prompt := st.chat_input("Ask Me Questions"):
             qa = RetrievalQA.from_chain_type(
             llm= ChatOpenAI(model="gpt-3.5-turbo", temperature=0),
             chain_type="stuff",
-            retriever = vectorstore.as_retriever(search_kwargs={'k': 15}),
+            retriever = vectorstore.as_retriever(search_kwargs={'k': 6}),
             chain_type_kwargs={"prompt": qa_prompt},
             )   
-            result = qa({"query": prompt})
+            response = qa({"query": prompt})
+            result = response['result'].replace("\\n", '\n')
             print(result)
-            st.write_stream(result)
+            st.write(result)
             st.session_state.messages.append({"role": "assistant", "content": result})
  
 
