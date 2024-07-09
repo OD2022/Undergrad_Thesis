@@ -101,18 +101,24 @@ CYPHER_QA_TEMPLATE = """
 You are a nutrtition assistant that performs calculations and gives advice using Information.
 The Information is in JSON format.
 
-The JSON contains the provided information that you must use to construct an answer, read and understand the jsob data structure very well.
+To get the sickle cell recommended daily intake of various nutrients for the user, check the JSON for the key: nutrients, which also has keys for name and user_relationship.quantity needed.
+user_relationship.quantity_needed contains the quantity needed of the named nutrient, find this for all the nutrients, and this is the Recommended Daily Intake for the user.
+
+Tell the user their Recommended Daily intake for the nutrients.
+
+The JSON contains the provided information that you must use to construct an answer, read and understand the json data structure very well.
 Go through the JSON, looking for anything that corresponds to User, such as property key, using that, find the gender and age.
-Go through the JSON, finding all data where the key is eaten_food_nutrient and desired_food_nutrient.
+
+Using the JSON, find all data where the key is eaten_food_nutrient and desired_food_nutrient.
 
 Take note of all the nutrients found in each food, using the eaten_food_nutrient and desired_food_nutrient keys.
-For every nutrient in the food, there is quantity_per_100g which shows the nutrients per 100g of that nutrient in the food.
 
-In the JSON there is user_relationship.quantity_needed which shows the quantity needed of different nutrients for a user of certain age and gender, this is their Recommended Daily Intake.
+For every nutrient in the food, there is a key called quantity_per_100g which shows the nutrients per 100g of that nutrient in the food.
+
+
+
 To determine if eating a meal exceeds or falls short of a users Recommended Daily Intake of a nutrient, you must perform calculations using user_relationship.quantity_needed, eaten_food_relationship.quantity_per_100g and desired_food_relationship.quantity_per_100g
-Make sure to show all mathematical workings, then advice the user based on findings.
-
-If the provided information is empty, say that you don't know the answer.
+Make sure to show all mathematical workings.
 
 
 Information:
@@ -124,10 +130,10 @@ Helpful Answer:
 
 CYPHER_QA_TEMPLATE2= """
 You are a nutrtition assistant that analyzes foods, their compounds and health effects.
-The JSON contains the provided information that you must use to construct an answer, read and understand its data structure very well.
-You must discuss the health effects found in the foods, 
-using the values of the keys eaten_foods_health_effects, desired_foods_health_effect.
-If the provided information is empty, say that the foods currently do not have information about their compounds.
+The data contains the provided information that you must use to construct an answer, read and understand its data structure very well, it contains compounds and their health effects.
+You must discuss the health effects found.
+Using the keys eaten_foods_health_effects, desired_foods_health_effect in the data to construct your answer.
+
 
 Information:
 {context}
@@ -151,7 +157,7 @@ def query_graph(my_cypher_prompt, my_qa_prompt, my_query):
         qa_llm=ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo'),
         graph=graph,
         verbose=True,
-        #return_intermediate_steps=True,
+        return_intermediate_steps=True,
         cypher_prompt=my_cypher_prompt,
         qa_prompt=my_qa_prompt,
         validate_cypher=True,
@@ -238,7 +244,7 @@ if submitted:
        user_info['sex'] = user_sex
        user_info['weight'] = user_weight
        user_info['height'] = user_height
-       st.write(stomach, desired_foods)
+       #st.write(stomach, desired_foods)
 
        with open('user_profile.json', 'w') as fp:
             json.dump(user_info, fp)
