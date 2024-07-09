@@ -250,11 +250,13 @@ if submitted:
             json.dump(desired_foods, fp)
       
        nutrient_result = query_graph(cypher_prompt, qa_prompt, 'nutrient')
+       nutrient_result = nutrient_result['result'].replace("\\n", '\n')
        container = st.container(border=True)
-       container.write(nutrient_result)
+       container.write(nutrient_result)            
 
        container2 = st.container(border=True)
        compound_result = query_graph(cypher_prompt2, qa_prompt_2, 'compound')
+       compound_result = compound_result['result'].replace("\\n", '\n')
        container2.write(compound_result)
 
 st.markdown(
@@ -267,6 +269,7 @@ st.markdown(
             height: 200px;
            
         }}
+        
     </style>
     """,
     unsafe_allow_html=True
