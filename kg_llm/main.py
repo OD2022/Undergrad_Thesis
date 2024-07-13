@@ -7,6 +7,8 @@ import json
 dotenv.load_dotenv()
 import streamlit as st
 import os
+import time
+
 
 user_profile={}
 user_stomach = {}
@@ -101,13 +103,13 @@ CYPHER_QA_TEMPLATE = """
 You are a nutrtition assistant that performs calculations and gives advice using Information.
 The Information is in JSON format.
 
-To get the sickle cell recommended daily intake of various nutrients for the user, check the JSON for the key: nutrients, which also has keys for name and user_relationship.quantity needed.
-user_relationship.quantity_needed contains the quantity needed of the named nutrient, find this for all the nutrients, and this is the Recommended Daily Intake for the user.
-
-Tell the user their Recommended Daily intake for the nutrients.
-
 The JSON contains the provided information that you must use to construct an answer, read and understand the json data structure very well.
 Go through the JSON, looking for anything that corresponds to User, such as property key, using that, find the gender and age.
+
+To get the sickle cell recommended daily intake of various nutrients for the user, check the JSON for the key: nutrients, which also has keys for user_relationship.quantity needed.
+user_relationship.quantity_needed contains the quantity needed of the named nutrient, find this for all the nutrients, and this is the Recommended Daily Intake for the user.
+
+Tell the user their Recommended Daily intake for all the nutrients.
 
 Using the JSON, find all data where the key is eaten_food_nutrient and desired_food_nutrient.
 
@@ -115,10 +117,9 @@ Take note of all the nutrients found in each food, using the eaten_food_nutrient
 
 For every nutrient in the food, there is a key called quantity_per_100g which shows the nutrients per 100g of that nutrient in the food.
 
-
-
 To determine if eating a meal exceeds or falls short of a users Recommended Daily Intake of a nutrient, you must perform calculations using user_relationship.quantity_needed, eaten_food_relationship.quantity_per_100g and desired_food_relationship.quantity_per_100g
 Make sure to show all mathematical workings.
+Do all calculations and leave non for the user to do, and then determine based on your calclulations if eaten the desired meal will exceed any recommended intakes.
 
 
 Information:
@@ -133,7 +134,8 @@ You are a nutrtition assistant that analyzes foods, their compounds and health e
 The data contains the provided information that you must use to construct an answer, read and understand its data structure very well, it contains compounds and their health effects.
 You must discuss the health effects found.
 Using the keys eaten_foods_health_effects, desired_foods_health_effect in the data to construct your answer.
-
+DO NOT USE DATA OUTSIDE OF THE INFORMATION PROVIDED TO YOU.
+IF INFORMATION ABOUT COMPOUNDS AND HEALTH EFFECTS ARE NOT GIVEN, SAY YOU DO NOT KNOW.
 
 Information:
 {context}
@@ -255,13 +257,21 @@ if submitted:
        with open('next_meal.json', 'w') as fp:
             json.dump(desired_foods, fp)
       
+
+       n_start_time = time.time()
        nutrient_result = query_graph(cypher_prompt, qa_prompt, 'nutrient')
+       print("--- %s seconds ---" % (time.time() - n_start_time))
        nutrient_result = nutrient_result['result'].replace("\\n", '\n')
+
        container = st.container(border=True)
        container.write(nutrient_result)            
-
+        
+       
        container2 = st.container(border=True)
+
+       c_start_time = time.time()
        compound_result = query_graph(cypher_prompt2, qa_prompt_2, 'compound')
+       print("--- %s seconds ---" % (time.time() - c_start_time))
        compound_result = compound_result['result'].replace("\\n", '\n')
        container2.write(compound_result)
 
