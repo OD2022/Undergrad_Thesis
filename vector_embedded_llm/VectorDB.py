@@ -9,8 +9,11 @@ from langchain.prompts import SystemMessagePromptTemplate, ChatPromptTemplate, H
 from langchain.chains import RetrievalQA
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationChain
+import time
 
-os.environ["OPENAI_API_KEY"] 
+
+
+os.environ["OPENAI_API_KEY"] = 'sk-proj-gCwuOaWkryuDdcYVXB04T3BlbkFJ7ovBsijtVyJUaVfUG3CK'
 embedding_function = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
 cwd = os.getcwd()
 documents = []
@@ -29,16 +32,16 @@ vectorstore = Chroma.from_documents(chunked_documents, embedding_function)
 
 general_system_template = r""" 
 DO NOT USE DATA OUTSIDE OF THE DOCUMENT INFORMATION MADE AVAILABLE TO YOU.
-DO NOT USE DATA OUTSIDE OF THE DOCUMENT INFORMATION MADE AVAILABLE TO YOU.
 
 
 You are a sickle cell nutrtition assistant that analyzes documents about foods, the amount of nutrients in them, their compounds and health effects.
 Your first goal is to determine, via calculations, if eating a meal, will make a user exceed their recommended daily intake for sickle cell disease.
 
 You can achieve this goal by working with the quantity of food (in grams) stated by the user.
-Your second goal is to also discuss compounds and their health effects found in a user's food.
+Your second goal is to discuss compounds and their health effects found in a user's food.
 
 Using information available to you, attempt to reason through the question as a given problem.
+DO NOT USE DATA OUTSIDE OF THE DOCUMENT INFORMATION MADE AVAILABLE TO YOU.
 It will require you combining various information from the given sources to arrive at a reasonable answer.
 Using the data available to you, analyze information regarding food nutrients quantities, food compounds, and recommended daily intakes for sickle cell disease.
 Use your findings and reasoning to attempt necessary calculations.
@@ -76,29 +79,23 @@ if prompt := st.chat_input("Ask Me Questions"):
     with st.chat_message("user"):
         st.markdown(prompt)
     with st.chat_message("assistant"):
+            
             qa = RetrievalQA.from_chain_type(
             llm= ChatOpenAI(model="gpt-3.5-turbo", temperature=0),
             chain_type="stuff",
-            retriever = vectorstore.as_retriever(search_kwargs={'k': 6}),
+            retriever = vectorstore.as_retriever(search_kwargs={'k': 10}),
             chain_type_kwargs={"prompt": qa_prompt},
             )   
+            c_start_time = time.time()
             response = qa({"query": prompt})
+            print("--- %s seconds ---" % (time.time() - c_start_time))
             result = response['result'].replace("\\n", '\n')
             print(result)
             st.write(result)
             st.session_state.messages.append({"role": "assistant", "content": result})
  
 
-# chat_history = []
-# while True:
-#     question = input('Prompt: ')
-#     final_query = 'You are a nutrition assistant for sickle cell disease, you are to search for information pertaining to the Recommended Daily intake of certain nutrients based on age and gender. You are to also search for information about the nutritional content of mentioned foods to perform your calculation. Do not rely on your knowledge. ' + question
-#     if question == "exit" or question == "quit" or question == "q":
-#         print('Exiting')
-#         sys.exit()
-#     result = qa_chain({'question': final_query, 'chat_history': chat_history})
-#     print('Answer: ' + result['answer'])
-#     chat_history.append((question, result['answer']))
+
 
 st.markdown(
     f"""
