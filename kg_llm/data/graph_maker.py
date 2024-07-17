@@ -88,15 +88,16 @@ with driver.session() as session:
 
 
     # Generate Cypher queries for user and nutrient relationships
-    # for nutrient, nutrient_data in rdi_data["DietaryReferenceIntakes"]["NutrientsSuggestedForNutritionManagementOfSCD"].items():
-    #     for gender, age_data in nutrient_data.items():
-    #         for age_bracket, quantity in age_data.items():
-    #             user_query = f'MERGE (u:User {{gender: "{gender}", age_bracket: "{age_bracket}"}})'
-    #             nutrient_query = f'MERGE (n:Nutrient {{name: "{nutrient}"}})'
-    #             relationship_query = f'MERGE (u)-[:NEEDS {{quantity_needed: {quantity}}}]->(n)'
-    #             query = user_query + '\n' + nutrient_query + '\n' + relationship_query
-    #             # Execute Cypher query
-    #             session.run(query)
+    for nutrient, nutrient_data in rdi_data["DietaryReferenceIntakes"]["NutrientsSuggestedForNutritionManagementOfSCD"].items():
+        for gender, age_data in nutrient_data.items():
+            for age_bracket, quantity in age_data.items():
+                user_query = f'MERGE (u:User {{gender: "{gender}", age_bracket: "{age_bracket}"}})'
+                nutrient_query = f'MERGE (n:Nutrient {{name: "{nutrient}"}})'
+                relationship_query = f'MERGE (u)-[:NEEDS {{quantity_needed: {quantity}}}]->(n)'
+                query = user_query + '\n' + nutrient_query + '\n' + relationship_query
+                # Execute Cypher query
+                session.run(query)
+
 
 
     for food_item in food_data:
