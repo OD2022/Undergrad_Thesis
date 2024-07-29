@@ -1,13 +1,16 @@
-from langchain_community.graphs import Neo4jGraph
-from langchain.chains import GraphCypherQAChain
-from langchain.prompts.prompt import PromptTemplate
-from langchain_openai import ChatOpenAI
+# from langchain_community.graphs import Neo4jGraph
+# from langchain.chains import GraphCypherQAChain
+# from langchain.prompts.prompt import PromptTemplate
+# from langchain_openai import ChatOpenAI
 import dotenv
 import json
 dotenv.load_dotenv()
 import streamlit as st
-import os
+# import os
 import time
+from neo4j import GraphDatabase
+import openai
+from openai import OpenAI
 
 
 user_profile={}
@@ -17,166 +20,189 @@ next_meal = {}
 NEO4J_CONNECTION_URL='neo4j+s://c492bfaa.databases.neo4j.io:7687'
 NEO4J_USER='neo4j'
 NEO4J_PASSWORD='qTS9vkpSZT1yZ57kseVCw2csO2Zx25IOMoYJAGoo2p0'
+driver = GraphDatabase.driver(NEO4J_CONNECTION_URL, auth=(NEO4J_USER, NEO4J_PASSWORD))
 
 
-##Nutrient is per hundred grams
-age = '19-70y'
-gender = 'Female'
-previous_meals = ['Hummus','Aprapransa']
-previous_quantities = [10, 200]
-desired_meal = ['Firm Tofu', 'Jollof Rice']
-desired_quantities = [20, 30]
+nutrient_context = """
+You are a nutrition assistant that performs calculations 
+and gives advice with the data given to you.
+
+Always write out the quantity needed per nutrient(RDI), so the user can cross check your results.
+The recommended Daily intake for the nutrient should be based on the data given to you that tells you how much the user needs of a given nutrient.
+Take note of all the nutrients found in each food.
+To determine if eating a meal exceeds or falls short of a users 
+need(RDI) of a nutrient, you must perform calculations 
+with the quantity of food eaten and the quantity of food desired to eat."""
 
 
-# Cypher generation prompt
-cypher_generation_template = """
-You are an expert Neo4j Cypher translator who converts English to Cypher based on the Neo4j Schema provided, following the instructions below:
-1. Generate Cypher query compatible ONLY for Neo4j Version 5
-2. Do not use EXISTS, SIZE, HAVING, CONTAINS, keywords in the cypher. Use alias when using the WITH keyword
-3. Use only Nodes and relationships mentioned in the schema
-4. Always do a case-insensitive and fuzzy search for any properties related search. 
-5. Never use relationships that are not mentioned in the given schema
-6. When asked about anything, Match the properties using non-case-insensitive matching 
 
-schema: {schema}
-
-Examples:
-Question: "I am a $age Year Old $gender with Sickle Cell Disease. I have eaten $previous_quantities of $previous_meals respectively. I am about to eat $desired_quantity of $desired_meal respectively, how would this affect my nutrient intake?".
-
-Answer: ```
-MATCH (user:User)-[user_relationship:NEEDS]->(nutrient:Nutrient)
-WHERE user.age_bracket = $age AND user.gender = $gender
-
-MATCH (eaten_food:Food)-[eaten_food_relationship:CONTAINS]->(eaten_food_nutrient:Nutrient)
-WHERE eaten_food.name IN $previous_meals
-
-MATCH (desired_food:Food)-[desired_food_relationship:CONTAINS]->(desired_food_nutrient:Nutrient)
-WHERE desired_food.name IN $desired_meal
-RETURN user, nutrient, user_relationship.quantity_needed, eaten_food_relationship.quantity_per_100g, eaten_food_nutrient, desired_food_nutrient, desired_food_relationship.quantity_per_100g;
-```
-Question: {question}
-
-"""
-
-
-cypher_generation_template2 = """
-You are an expert Neo4j Cypher translator who converts English to Cypher based on the Neo4j Schema provided, following the instructions below:
-1. Generate Cypher query compatible ONLY for Neo4j Version 5
-2. Do not use EXISTS, SIZE, HAVING, CONTAINS, keywords in the cypher. Use alias when using the WITH keyword
-3. Use only Nodes and relationships mentioned in the schema
-4. Always do a case-insensitive and fuzzy search for any properties related search. 
-5. Never use relationships that are not mentioned in the given schema
-6. When asked about anything, Match the properties using non-case-insensitive matching 
-
-schema: {schema}
-
-Examples:
-Question: "I am a $age Year Old $gender with Sickle Cell Disease. I have eaten $previous_quantities of $previous_meals respectively. I am about to eat $desired_quantity of $desired_meal respectively. What are the compounds and health effects?"
-
-Answer: ```
-
-MATCH (eaten_food:Food)-[:CONTAINS_COMPOUND]->(eaten_food_compound:Compound)-[:HAS_EFFECT]->(eaten_food_health_effect:HealthEffect)
-WHERE eaten_food.name IN $previous_meals
-
-MATCH (desired_food:Food)-[:CONTAINS_COMPOUND]->(desired_food_compound:Compound)-[:HAS_EFFECT]->(desired_food_health_effect:HealthEffect)
-WHERE desired_food.name IN $desired_meal
-
-RETURN eaten_food, eaten_food_compound, eaten_food_health_effect, desired_food, desired_food_compound, desired_food_health_effect;
-
-```
-Question: {question}
-
-"""
-
-cypher_prompt = PromptTemplate(
-    template=cypher_generation_template,
-    input_variables=["schema", "question"]
-)
-
-cypher_prompt2 = PromptTemplate(
-    template=cypher_generation_template2,
-    input_variables=["schema", "question"]
-)
-
-CYPHER_QA_TEMPLATE = """
-
-You are a nutrtition assistant that performs calculations and gives advice using Information.
-The Information is in JSON format.
-
-The JSON contains the provided information that you must use to construct an answer, read and understand the json data structure very well.
-Go through the JSON, looking for anything that corresponds to User, such as property key, using that, find the gender and age.
-
-To get the sickle cell recommended daily intake of various nutrients for the user, check the JSON for the key: nutrients, which also has keys for user_relationship.quantity needed.
-user_relationship.quantity_needed contains the quantity needed of the named nutrient, find this for all the nutrients, and this is the Recommended Daily Intake for the user.
-
-Tell the user their Recommended Daily intake for all the nutrients.
-
-Using the JSON, find all data where the key is eaten_food_nutrient and desired_food_nutrient.
-
-Take note of all the nutrients found in each food, using the eaten_food_nutrient and desired_food_nutrient keys.
-
-For every nutrient in the food, there is a key called quantity_per_100g which shows the nutrients per 100g of that nutrient in the food.
-
-To determine if eating a meal exceeds or falls short of a users Recommended Daily Intake of a nutrient, you must perform calculations using user_relationship.quantity_needed, eaten_food_relationship.quantity_per_100g and desired_food_relationship.quantity_per_100g
-Make sure to show all mathematical workings.
-Do all calculations and leave non for the user to do, and then determine based on your calclulations if eaten the desired meal will exceed any recommended intakes.
-
-
-Information:
-{context}
-Question: {question}
-Helpful Answer:
-"""
-
-
-CYPHER_QA_TEMPLATE2= """
-You are a nutrtition assistant that analyzes foods, their compounds and health effects.
-The data contains the provided information that you must use to construct an answer, read and understand its data structure very well, it contains compounds and their health effects.
+compound_context = """You are a nutrition assistant that analyzes foods, their compounds and health effects.
+The data contains the provided information that you must use to construct an answer, 
+read and understand its data structure very well, it contains compounds and their health effects.
 You must discuss the health effects found.
-Using the keys eaten_foods_health_effects, desired_foods_health_effect in the data to construct your answer.
-DO NOT USE DATA OUTSIDE OF THE INFORMATION PROVIDED TO YOU.
-IF INFORMATION ABOUT COMPOUNDS AND HEALTH EFFECTS ARE NOT GIVEN, SAY YOU DO NOT KNOW.
-
-Information:
-{context}
-Question: {question}
-Helpful Answer:"""
+"""
 
 
-qa_prompt = PromptTemplate(
-    input_variables=["context", "question"], template=CYPHER_QA_TEMPLATE
-)
+def query_gpt_with_context(prompt, context):
+    client = OpenAI()
+    completion = client.chat.completions.create(
+    temperature=0,
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": context},
+        {"role": "user", "content": prompt}
+    ])
+    return completion.choices[0].message.content
 
-qa_prompt_2 = PromptTemplate(
-    input_variables=["context", "question"], template=CYPHER_QA_TEMPLATE2
-)
 
-def query_graph(my_cypher_prompt, my_qa_prompt, my_query):
-    graph = Neo4jGraph(url=NEO4J_CONNECTION_URL, username=NEO4J_USER, password=NEO4J_PASSWORD)
-    graph.refresh_schema()
-    chain = GraphCypherQAChain.from_llm(
-        cypher_llm=ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo'),
-        qa_llm=ChatOpenAI(temperature=0, model_name='gpt-3.5-turbo'),
-        graph=graph,
-        verbose=True,
-        return_intermediate_steps=True,
-        cypher_prompt=my_cypher_prompt,
-        qa_prompt=my_qa_prompt,
-        validate_cypher=True,
-        top_k=100,
-    )
-   
+def generate_and_run_query_nutrients(driver, age, gender, previous_meals, desired_meals):
+    query = """
+    MATCH (user:User)-[needs:NEEDS]->(nutrient:Nutrient)
+    WHERE user.age_bracket = $age AND user.gender = $gender
+    WITH user, collect({nutrient: nutrient, quantity_needed: needs.quantity_needed}) AS needed_nutrients
+
+    MATCH (eaten_food:Food)-[contains:CONTAINS]->(eaten_food_nutrient:Nutrient)
+    WHERE eaten_food.name IN $previous_meals
+    WITH needed_nutrients, collect({eaten_food: eaten_food, nutrient: eaten_food_nutrient, quantity_per_100g: contains.quantity_per_100g}) AS previous_meal_nutrients
+
+    MATCH (desired_food:Food)-[contains:CONTAINS]->(desired_food_nutrient:Nutrient)
+    WHERE desired_food.name IN $desired_meal
+    WITH needed_nutrients, previous_meal_nutrients, collect({desired_food: desired_food, nutrient: desired_food_nutrient, quantity_per_100g: contains.quantity_per_100g}) AS desired_meal_nutrients
+
+    RETURN needed_nutrients, previous_meal_nutrients, desired_meal_nutrients;"""
+
+    params = {
+        "age": age,
+        "gender" : gender,
+        "previous_meals" : previous_meals,
+        "desired_meal" : desired_meals
+    }
+
+    result_str = ""
+    previous_meal_nutrients = []
+    desired_meal_nutrients = []
+    needed_nutrients = []
+
+    with driver.session() as session:
+        results = session.run(query, **params)
+        
+        for record in results:
+            # Extract needed nutrients
+            needed_nutrients = record.get('needed_nutrients', [])
+            result_str += "Needed Nutrients:\n"
+            for item in needed_nutrients:
+                nutrient = item.get('nutrient', {})
+                quantity_needed = item.get('quantity_needed', 'Unknown')
+                result_str += f"- Nutrient: {nutrient.get('name', 'Unknown')}, Quantity Needed: {quantity_needed} mg\n"
+
+            # Extract previous meal nutrients
+            previous_meal_nutrients = record.get('previous_meal_nutrients', [])
+            result_str += "\nPrevious Meal Nutrients:\n"
+            for item in previous_meal_nutrients:
+                eaten_food = item.get('eaten_food', {})
+                nutrient = item.get('nutrient', {})
+                quantity_per_100g = item.get('quantity_per_100g', 'Unknown')
+                result_str += f"- Food: {eaten_food.get('name', 'Unknown')}, Nutrient: {nutrient.get('name', 'Unknown')}, Quantity per 100g: {quantity_per_100g} mg\n"
+
+            # Extract desired meal nutrients
+            desired_meal_nutrients = record.get('desired_meal_nutrients', [])
+            result_str += "\nDesired Meal Nutrients:\n"
+            for item in desired_meal_nutrients:
+                desired_food = item.get('desired_food', {})
+                nutrient = item.get('nutrient', {})
+                quantity_per_100g = item.get('quantity_per_100g', 'Unknown')
+                result_str += f"- Food: {desired_food.get('name', 'Unknown')}, Nutrient: {nutrient.get('name', 'Unknown')}, Quantity per 100g: {quantity_per_100g} mg\n"
+
+    driver.close()
+    return result_str
+
+
+
+
+def generate_and_run_query_compounds(driver, previous_meals, desired_meals):
+    query = """
+    MATCH (eaten_food:Food)-[:CONTAINS_COMPOUND]->(eaten_food_compound:Compound)-[:HAS_EFFECT]->(eaten_food_health_effect:HealthEffect)
+    WHERE eaten_food.name IN $previous_meals
+    WITH collect({eaten_food: eaten_food, compound: eaten_food_compound, health_effect: eaten_food_health_effect}) AS previous_meal_effects
+
+    MATCH (desired_food:Food)-[:CONTAINS_COMPOUND]->(desired_food_compound:Compound)-[:HAS_EFFECT]->(desired_food_health_effect:HealthEffect)
+    WHERE desired_food.name IN $desired_meal
+    WITH previous_meal_effects, collect({desired_food: desired_food, compound: desired_food_compound, health_effect: desired_food_health_effect}) AS desired_meal_effects
+
+    RETURN previous_meal_effects, desired_meal_effects;"""
+
+    params = {
+        "previous_meals" : previous_meals,
+        "desired_meal" : desired_meals
+    }
+    
+
+    result_str = ""    
+    with driver.session() as session:
+        results = session.run(query, **params)
+        for record in results:
+            result_str = ""
+
+        # Extract previous meal effects
+        previous_meal_effects = record.get('previous_meal_effects', [])
+        result_str += "Previous Meal Effects:\n"
+        for effect in previous_meal_effects:
+            eaten_food = effect.get('eaten_food', {})
+            health_effect = effect.get('health_effect', {})
+            compound = effect.get('compound', {})
+
+            if eaten_food:
+                result_str += f"- Eaten Food: {eaten_food.get('name', 'Unknown')} (ID: {eaten_food.get('element_id', 'Unknown')})\n"
+                # Extract and show health effects related to eaten food
+                eaten_food_health_effects = eaten_food.get('health_effects', [])
+                if eaten_food_health_effects:
+                    result_str += "  - Health Effects for Eaten Food:\n"
+                    for health_effect in eaten_food_health_effects:
+                        result_str += f"    * Health Effect: {health_effect.get('description', 'Unknown')} (ID: {health_effect.get('element_id', 'Unknown')})\n"
+            if health_effect:
+                result_str += f"  - Health Effect: {health_effect.get('description', 'Unknown')} (ID: {health_effect.get('element_id', 'Unknown')})\n"
+            if compound:
+                result_str += f"  - Compound: {compound.get('name', 'Unknown')} (ID: {compound.get('element_id', 'Unknown')})\n"
+
+        # Extract desired meal effects
+        desired_meal_effects = record.get('desired_meal_effects', [])
+        result_str += "\nDesired Meal Effects:\n"
+        for effect in desired_meal_effects:
+            desired_food = effect.get('desired_food', {})
+            health_effect = effect.get('health_effect', {})
+            compound = effect.get('compound', {})
+
+            if desired_food:
+                result_str += f"- Desired Food: {desired_food.get('name', 'Unknown')} (ID: {desired_food.get('element_id', 'Unknown')})\n"
+                # Extract and show health effects related to desired food
+                desired_food_health_effects = desired_food.get('health_effects', [])
+                if desired_food_health_effects:
+                    result_str += "  - Health Effects for Desired Food:\n"
+                    for health_effect in desired_food_health_effects:
+                        result_str += f"    * Health Effect: {health_effect.get('description', 'Unknown')} (ID: {health_effect.get('element_id', 'Unknown')})\n"
+            if health_effect:
+                result_str += f"  - Health Effect: {health_effect.get('description', 'Unknown')} (ID: {health_effect.get('element_id', 'Unknown')})\n"
+            if compound:
+                result_str += f"  - Compound: {compound.get('name', 'Unknown')} (ID: {compound.get('element_id', 'Unknown')})\n"
+
+
+    
+    driver.close()
+    return result_str
+
+
+def get_results():
     with open('user_profile.json', 'r') as file:
         # Load JSON data from the file
-            user_profile = json.load(file)
+        user_profile = json.load(file)
 
     with open('user_stomach.json', 'r') as file:
         # Load JSON data from the file
-            user_stomach = json.load(file)
+        user_stomach = json.load(file)
 
     with open('next_meal.json', 'r') as file:
         # Load JSON data from the file
-            next_meal = json.load(file)
+        next_meal = json.load(file)
 
     quantity_eaten = []
     food_eaten = []
@@ -184,22 +210,33 @@ def query_graph(my_cypher_prompt, my_qa_prompt, my_query):
     food_to_eat = []
 
     for food in user_stomach:
-        quantity_eaten.append(user_stomach[food])
-        food_eaten.append(food)
-        
+            quantity_eaten.append(user_stomach[food])
+            food_eaten.append(food)
+            
     for food in next_meal:
         quantity_to_eat.append(next_meal[food])
         food_to_eat.append(food)
 
+    nutrient_result = generate_and_run_query_nutrients(driver, user_profile['age'], user_profile['sex'], food_eaten, food_to_eat)
+    compound_result = generate_and_run_query_compounds(driver, food_eaten, food_to_eat)
+       
+    formatted_eaten = ["{}g of {}".format(amount, food) for food, amount in zip(food_eaten, quantity_eaten)]
+    formatted_planned = ["{}g of {}".format(amount, food) for food, amount in zip(food_to_eat, quantity_to_eat)]
 
-    nutrient_query = "I am a {}y Year Old {}. with Sickle Cell Disease. I have eaten {}g of {} respectively. I am about to eat {}g of {} respectively. How would this affect my nutrient intake?".format(user_profile['age'], user_profile['sex'], quantity_eaten, food_eaten, quantity_to_eat, food_to_eat)
-    compound_query = "I am a {}y Year Old {}. with Sickle Cell Disease. I have eaten {}g of {} respectively. I am about to eat {}g of {} respectively. What are the compounds and health effects?".format(user_profile['age'], user_profile['sex'], quantity_eaten, food_eaten, quantity_to_eat, food_to_eat)
-    
-    if my_query == 'nutrient':
-       result = chain.invoke(nutrient_query)
-    elif my_query == 'compound':
-       result = chain.invoke(compound_query)
-    return result
+    eaten_str = ", ".join(formatted_eaten)
+    planned_str = ", ".join(formatted_planned)
+       
+    nutrient_prompt = "If I eat what I desire to eat, have I met or exceeded or am I behind in my nutrient intakes for these nutrients for the day? I have eaten {} and plan to eat {} respectively.".format(eaten_str, planned_str)
+    nutrient_response = query_gpt_with_context(nutrient_result + nutrient_prompt, nutrient_context)
+
+    compound_prompt = "How will the compounds in these foods affect my health"
+    compound_response = query_gpt_with_context(compound_prompt + compound_result, compound_context)
+
+    return nutrient_response, compound_response
+
+
+
+
 
 
 ##Streamlit user interface
@@ -209,12 +246,12 @@ st.markdown('#')
 
 st.sidebar.title("Quantity Selector")
 
-eaten_food_options = ['Tom Brown', 'Shitto', 'Hummus', 'Jollof Rice', 'Grilled Chicken', 'Fried Chicken', 'Aprapransa', 'Muesli (Almond)',
+eaten_food_options = ['Tom Brown', 'Shitto', 'Hummus', 'Jollof Rice', 'Aprapransa', 'Muesli (Almond)',
                       'Wholegrain Rolled Oats', 'Almond Milk', 'Soy Milk', 'Firm Tofu', 'Aprapransa', 'Yam with kontomire stew', 'Yam with garden egg stew', 'Plantain with kontomire stew', 'Plantain with garden egg stew', 'Fufu with light soup', 'Fufu with palm-nut soup', 'Fufu with groundnut soup', 'Konkonte with palm-nut soup', 'Konkonte with groundnut soup', 'Akple with okro soup', 'Kooko with bread', 'Kenkey with fried fish and pepper', 'Plain rice and stew', 'Omo tuo with palm-nut soup', 'Omo tuo with groundnut soup', 'Waakye with stew', 'Hausa Kooko with bread and akara', 'Tuo zaafi', 'Beans with fried plantain'
                       ]
 selected_eaten_options = st.multiselect('What You have eaten in the past 24 hours?', eaten_food_options)
 
-desired_food_options = ['Tom Brown', 'Shitto', 'Hummus', 'Jollof Rice', 'Grilled Chicken', 'Fried Chicken', 'Aprapransa', 'Muesli (Almond)',
+desired_food_options = ['Tom Brown', 'Shitto', 'Hummus', 'Jollof Rice', 'Aprapransa', 'Muesli (Almond)',
                       'Wholegrain Rolled Oats', 'Almond Milk', 'Soy Milk', 'Firm Tofu', 'Aprapransa', 'Yam with kontomire stew', 'Yam with garden egg stew', 'Plantain with kontomire stew', 'Plantain with garden egg stew', 'Fufu with light soup', 'Fufu with palm-nut soup', 'Fufu with groundnut soup', 'Konkonte with palm-nut soup', 'Konkonte with groundnut soup', 'Akple with okro soup', 'Kooko with bread', 'Kenkey with fried fish and pepper', 'Plain rice and stew', 'Omo tuo with palm-nut soup', 'Omo tuo with groundnut soup', 'Waakye with stew', 'Hausa Kooko with bread and akara', 'Tuo zaafi', 'Beans with fried plantain'
                       ]
 selected_desired_options = st.multiselect('What are you planning to eat now?', desired_food_options)
@@ -235,7 +272,13 @@ for food in selected_desired_options:
 
 
 user_sex = st.radio('What is your gender?',['Male','Female'])
-user_age_group = st.selectbox('Pick your Age Group',['1-18','19-70', '70+', 'Pregnancy', 'Lactation'])
+user_age_group = st.selectbox('Pick your Age Group',["1-3y",
+            "4-8y",
+            "9-13y",
+            "14-18y",
+            "19-50y",
+            "51-69y",
+            "70+y", 'Pregnancy', 'Lactation'])
 user_weight = st.text_input('What is your weight in kilograms?')
 user_height = st.text_input('What is your height in meters?')
 submitted = st.button("Get Advice")
@@ -258,22 +301,21 @@ if submitted:
             json.dump(desired_foods, fp)
       
 
+       ###Querying for nutrients
        n_start_time = time.time()
-       nutrient_result = query_graph(cypher_prompt, qa_prompt, 'nutrient')
+       nutrient_data = get_results()[0]
        print("--- %s seconds ---" % (time.time() - n_start_time))
-       nutrient_result = nutrient_result['result'].replace("\\n", '\n')
-
        container = st.container(border=True)
-       container.write(nutrient_result)            
-        
-       
-       container2 = st.container(border=True)
+       container.write(nutrient_data)            
 
+       ###Querying for compounds
        c_start_time = time.time()
-       compound_result = query_graph(cypher_prompt2, qa_prompt_2, 'compound')
+       compound_result = get_results()[1]
        print("--- %s seconds ---" % (time.time() - c_start_time))
-       compound_result = compound_result['result'].replace("\\n", '\n')
+       container2 = st.container(border=True)
        container2.write(compound_result)
+
+
 
 st.markdown(
     f"""

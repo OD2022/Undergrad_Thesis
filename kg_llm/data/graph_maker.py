@@ -100,31 +100,34 @@ with driver.session() as session:
 
 
 
-    for food_item in food_data:
-        food_name = food_item.get("name", "")
-        nutrition_per_100g = food_item.get("nutrition-per-100g", {})
-        compounds = food_item.get("compounds", [])
+    # for food_item in food_data:
+    #     food_name = food_item.get("name", "")
+    #     nutrition_per_100g = food_item.get("nutrition-per-100g", {})
+    #     compounds = food_item.get("compounds", [])
 
-        for compound in compounds:
-            query = (
-                f'MATCH (f:Food {{name: "{food_name}"}}) '
-                f'MATCH (c:Compound {{name: "{compound}"}}) '
-                'MERGE (f)-[:CONTAINS_COMPOUND]->(c)'
-            )
-            # Run the query
-            session.run(query)
+    #     for compound in compounds:
+    #         query = (
+    #             f'MATCH (f:Food {{name: "{food_name}"}}) '
+    #             f'MATCH (c:Compound {{name: "{compound}"}}) '
+    #             'MERGE (f)-[:CONTAINS_COMPOUND]->(c)'
+    #         )
+    #         # Run the query
+    #         session.run(query)
 
-        if nutrition_per_100g:
-            for key, value in nutrition_per_100g.items():
-                if key.lower() in known_nutrients:
-                    # Create Cypher query to create food node and merge with existing nutrient node
-                    query = (
-                        f'MERGE (f:Food {{name: "{food_name}"}}) '
-                        f'MERGE (n:Nutrient {{name: "{key.lower()}"}}) '
-                        f'MERGE (f)-[:CONTAINS {{quantity_per_100g: {value}}}]->(n)'
-                    )
-                    # Run the query
-                    session.run(query)
+    #     if nutrition_per_100g:
+    #         for key, value in nutrition_per_100g.items():
+    #             if key.lower() in known_nutrients:
+    #                 # Create Cypher query to create food node and merge with existing nutrient node
+    #                 query = (
+    #                     f'MERGE (f:Food {{name: "{food_name}"}}) '
+    #                     f'MERGE (n:Nutrient {{name: "{key.lower()}"}}) '
+    #                     f'MERGE (f)-[:CONTAINS {{quantity_per_100g: {value}}}]->(n)'
+    #                 )
+    #                 # Run the query
+    #                 session.run(query)
+
+
+
                     
 print("done")
 driver.close()
