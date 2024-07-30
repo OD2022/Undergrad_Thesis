@@ -92,6 +92,7 @@ if prompt := st.chat_input("Ask Me Questions"):
             result = response['result'].replace("\\n", '\n')
             print(result)
             st.write(result)
+            st.write(time.time() - c_start_time)
             st.session_state.messages.append({"role": "assistant", "content": result})
  
 

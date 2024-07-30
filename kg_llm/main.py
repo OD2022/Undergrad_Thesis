@@ -32,7 +32,9 @@ The recommended Daily intake for the nutrient should be based on the data given 
 Take note of all the nutrients found in each food.
 To determine if eating a meal exceeds or falls short of a users 
 need(RDI) of a nutrient, you must perform calculations 
-with the quantity of food eaten and the quantity of food desired to eat."""
+with the quantity of food eaten and the quantity of food desired to eat.
+If the quantity of a nutrient for a certain food is not given. Do not make up answers.
+"""
 
 
 
@@ -93,7 +95,7 @@ def generate_and_run_query_nutrients(driver, age, gender, previous_meals, desire
             for item in needed_nutrients:
                 nutrient = item.get('nutrient', {})
                 quantity_needed = item.get('quantity_needed', 'Unknown')
-                result_str += f"- Nutrient: {nutrient.get('name', 'Unknown')}, Quantity Needed: {quantity_needed} mg\n"
+                result_str += f"- Nutrient: {nutrient.get('name', 'Unknown')}, Quantity Needed: {quantity_needed} \n"
 
             # Extract previous meal nutrients
             previous_meal_nutrients = record.get('previous_meal_nutrients', [])
@@ -102,7 +104,7 @@ def generate_and_run_query_nutrients(driver, age, gender, previous_meals, desire
                 eaten_food = item.get('eaten_food', {})
                 nutrient = item.get('nutrient', {})
                 quantity_per_100g = item.get('quantity_per_100g', 'Unknown')
-                result_str += f"- Food: {eaten_food.get('name', 'Unknown')}, Nutrient: {nutrient.get('name', 'Unknown')}, Quantity per 100g: {quantity_per_100g} mg\n"
+                result_str += f"- Food: {eaten_food.get('name', 'Unknown')}, Nutrient: {nutrient.get('name', 'Unknown')}, Quantity per 100g: {quantity_per_100g} \n"
 
             # Extract desired meal nutrients
             desired_meal_nutrients = record.get('desired_meal_nutrients', [])
@@ -111,7 +113,7 @@ def generate_and_run_query_nutrients(driver, age, gender, previous_meals, desire
                 desired_food = item.get('desired_food', {})
                 nutrient = item.get('nutrient', {})
                 quantity_per_100g = item.get('quantity_per_100g', 'Unknown')
-                result_str += f"- Food: {desired_food.get('name', 'Unknown')}, Nutrient: {nutrient.get('name', 'Unknown')}, Quantity per 100g: {quantity_per_100g} mg\n"
+                result_str += f"- Food: {desired_food.get('name', 'Unknown')}, Nutrient: {nutrient.get('name', 'Unknown')}, Quantity per 100g: {quantity_per_100g} \n"
 
     driver.close()
     return result_str
@@ -143,51 +145,66 @@ def generate_and_run_query_compounds(driver, previous_meals, desired_meals):
         for record in results:
             result_str = ""
 
-        # Extract previous meal effects
-        previous_meal_effects = record.get('previous_meal_effects', [])
-        result_str += "Previous Meal Effects:\n"
-        for effect in previous_meal_effects:
-            eaten_food = effect.get('eaten_food', {})
-            health_effect = effect.get('health_effect', {})
-            compound = effect.get('compound', {})
+            # Extract previous meal effects
+            previous_meal_effects = record.get('previous_meal_effects', [])
+            result_str += "Previous Meal Effects:\n"
+            
+            #if previous_meal_effects:
+            for effect in previous_meal_effects:
+                    eaten_food = effect.get('eaten_food', {})
+                    health_effect = effect.get('health_effect', {})
+                    compound = effect.get('compound', {})
 
-            if eaten_food:
-                result_str += f"- Eaten Food: {eaten_food.get('name', 'Unknown')} (ID: {eaten_food.get('element_id', 'Unknown')})\n"
-                # Extract and show health effects related to eaten food
-                eaten_food_health_effects = eaten_food.get('health_effects', [])
-                if eaten_food_health_effects:
-                    result_str += "  - Health Effects for Eaten Food:\n"
-                    for health_effect in eaten_food_health_effects:
-                        result_str += f"    * Health Effect: {health_effect.get('description', 'Unknown')} (ID: {health_effect.get('element_id', 'Unknown')})\n"
-            if health_effect:
-                result_str += f"  - Health Effect: {health_effect.get('description', 'Unknown')} (ID: {health_effect.get('element_id', 'Unknown')})\n"
-            if compound:
-                result_str += f"  - Compound: {compound.get('name', 'Unknown')} (ID: {compound.get('element_id', 'Unknown')})\n"
+                    if eaten_food:
+                        result_str += f"- Eaten Food: {eaten_food.get('name', 'Unknown')} (ID: {eaten_food.get('element_id', 'Unknown')})\n"
+                        
+                        # Extract and show health effects related to eaten food
+                        eaten_food_health_effects = eaten_food.get('health_effects', [])
+                        if eaten_food_health_effects:
+                            result_str += "  - Health Effects for Eaten Food:\n"
+                            for health_effect in eaten_food_health_effects:
+                                result_str += f"    * Health Effect: {health_effect.get('description', 'Unknown')} (ID: {health_effect.get('element_id', 'Unknown')})\n"
+                    
+                    if health_effect:
+                        result_str += f"  - Health Effect: {health_effect.get('description', 'Unknown')} (ID: {health_effect.get('element_id', 'Unknown')})\n"
+                    if compound:
+                        result_str += f"  - Compound: {compound.get('name', 'Unknown')} (ID: {compound.get('element_id', 'Unknown')})\n"
 
-        # Extract desired meal effects
-        desired_meal_effects = record.get('desired_meal_effects', [])
-        result_str += "\nDesired Meal Effects:\n"
-        for effect in desired_meal_effects:
-            desired_food = effect.get('desired_food', {})
-            health_effect = effect.get('health_effect', {})
-            compound = effect.get('compound', {})
+            else:
+                result_str += "  No previous meal effects available.\n"
 
-            if desired_food:
-                result_str += f"- Desired Food: {desired_food.get('name', 'Unknown')} (ID: {desired_food.get('element_id', 'Unknown')})\n"
-                # Extract and show health effects related to desired food
-                desired_food_health_effects = desired_food.get('health_effects', [])
-                if desired_food_health_effects:
-                    result_str += "  - Health Effects for Desired Food:\n"
-                    for health_effect in desired_food_health_effects:
-                        result_str += f"    * Health Effect: {health_effect.get('description', 'Unknown')} (ID: {health_effect.get('element_id', 'Unknown')})\n"
-            if health_effect:
-                result_str += f"  - Health Effect: {health_effect.get('description', 'Unknown')} (ID: {health_effect.get('element_id', 'Unknown')})\n"
-            if compound:
-                result_str += f"  - Compound: {compound.get('name', 'Unknown')} (ID: {compound.get('element_id', 'Unknown')})\n"
+            # Extract desired meal effects
+            desired_meal_effects = record.get('desired_meal_effects', [])
+            result_str += "\nDesired Meal Effects:\n"
+            
+            if desired_meal_effects:
+                for effect in desired_meal_effects:
+                    desired_food = effect.get('desired_food', {})
+                    health_effect = effect.get('health_effect', {})
+                    compound = effect.get('compound', {})
+
+                    if desired_food:
+                        result_str += f"- Desired Food: {desired_food.get('name', 'Unknown')} (ID: {desired_food.get('element_id', 'Unknown')})\n"
+                        
+                        # Extract and show health effects related to desired food
+                        desired_food_health_effects = desired_food.get('health_effects', [])
+                        if desired_food_health_effects:
+                            result_str += "  - Health Effects for Desired Food:\n"
+                            for health_effect in desired_food_health_effects:
+                                result_str += f"    * Health Effect: {health_effect.get('description', 'Unknown')} (ID: {health_effect.get('element_id', 'Unknown')})\n"
+                    
+                    if health_effect:
+                        result_str += f"  - Health Effect: {health_effect.get('description', 'Unknown')} (ID: {health_effect.get('element_id', 'Unknown')})\n"
+                    if compound:
+                        result_str += f"  - Compound: {compound.get('name', 'Unknown')} (ID: {compound.get('element_id', 'Unknown')})\n"
+
+            else:
+                result_str += "  No desired meal effects available.\n"
 
 
     
     driver.close()
+    print(result_str)
     return result_str
 
 
@@ -229,7 +246,7 @@ def get_results():
     nutrient_prompt = "If I eat what I desire to eat, have I met or exceeded or am I behind in my nutrient intakes for these nutrients for the day? I have eaten {} and plan to eat {} respectively.".format(eaten_str, planned_str)
     nutrient_response = query_gpt_with_context(nutrient_result + nutrient_prompt, nutrient_context)
 
-    compound_prompt = "How will the compounds in these foods affect my health"
+    compound_prompt = "How will the compounds in these foods I have eaten or plan to eat affect my health"
     compound_response = query_gpt_with_context(compound_prompt + compound_result, compound_context)
 
     return nutrient_response, compound_response
@@ -304,16 +321,23 @@ if submitted:
        ###Querying for nutrients
        n_start_time = time.time()
        nutrient_data = get_results()[0]
-       print("--- %s seconds ---" % (time.time() - n_start_time))
+       nutrient_time = (time.time() - n_start_time)
+
+       #print("--- %s seconds ---" % (time.time() - n_start_time))
        container = st.container(border=True)
        container.write(nutrient_data)            
 
        ###Querying for compounds
        c_start_time = time.time()
        compound_result = get_results()[1]
-       print("--- %s seconds ---" % (time.time() - c_start_time))
+       comp_time = (time.time() - c_start_time)
+
+       #print("--- %s seconds ---" % (time.time() - c_start_time))
        container2 = st.container(border=True)
        container2.write(compound_result)
+       container3 = st.container(border=True)
+       container3.write(nutrient_time + comp_time)
+
 
 
 
