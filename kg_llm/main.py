@@ -1,7 +1,4 @@
-# from langchain_community.graphs import Neo4jGraph
-# from langchain.chains import GraphCypherQAChain
-# from langchain.prompts.prompt import PromptTemplate
-# from langchain_openai import ChatOpenAI
+
 import dotenv
 import json
 dotenv.load_dotenv()
@@ -17,9 +14,9 @@ user_profile={}
 user_stomach = {}
 next_meal = {}
 
-NEO4J_CONNECTION_URL='neo4j+s://c492bfaa.databases.neo4j.io:7687'
-NEO4J_USER='neo4j'
-NEO4J_PASSWORD='qTS9vkpSZT1yZ57kseVCw2csO2Zx25IOMoYJAGoo2p0'
+NEO4J_CONNECTION_URL=''
+NEO4J_USER=''
+NEO4J_PASSWORD=''
 driver = GraphDatabase.driver(NEO4J_CONNECTION_URL, auth=(NEO4J_USER, NEO4J_PASSWORD))
 
 

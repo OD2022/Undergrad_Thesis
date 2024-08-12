@@ -3,9 +3,9 @@ import os
 from neo4j import GraphDatabase
 
 # Define Neo4j connection parameters
-neo4j_url = 'neo4j+s://c492bfaa.databases.neo4j.io:7687'
-neo4j_user = 'neo4j'
-neo4j_password = 'qTS9vkpSZT1yZ57kseVCw2csO2Zx25IOMoYJAGoo2p0'
+neo4j_url = ''
+neo4j_user = ''
+neo4j_password = ''
 
 driver = GraphDatabase.driver(neo4j_url, auth=(neo4j_user, neo4j_password))
 

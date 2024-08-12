@@ -13,7 +13,7 @@ import time
 
 
 
-os.environ["OPENAI_API_KEY"] = 'sk-proj-gCwuOaWkryuDdcYVXB04T3BlbkFJ7ovBsijtVyJUaVfUG3CK'
+os.environ["OPENAI_API_KEY"] = ''
 embedding_function = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
 cwd = os.getcwd()
 documents = []
